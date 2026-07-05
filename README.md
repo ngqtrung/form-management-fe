@@ -26,6 +26,12 @@ Muốn đổi port thì sửa `devServer.port` trong `quasar.config.js`, nhớ s
 
 Build production: `npm run build`.
 
+Không muốn cài Node local, dùng Docker cũng được:
+```
+docker compose up --build
+```
+Chạy ở `http://localhost:8080`, tự trỏ tới backend qua `host.docker.internal:5000` (backend chạy ở host machine hoặc container riêng, không nằm trong compose file này). Nếu backend cũng chạy Docker thì cứ `docker compose up` cả 2 project là gọi được nhau bình thường.
+
 ## Cấu trúc
 
 Theo convention pages/layouts/router/store quen thuộc của Quasar:

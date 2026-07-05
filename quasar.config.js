@@ -70,6 +70,7 @@ export default defineConfig((/* ctx */) => {
 
     // https://legacy-app.quasar.dev/quasar-cli-vite-v2/quasar-config-file#devserver
     devServer: {
+      host: "0.0.0.0",
       port: 8080,
       open: true
     },
