@@ -1,7 +1,7 @@
 import { useRouter } from "vue-router";
 
 import { useAuthStore } from "../stores/auth";
-import { AuthService } from "../services";
+import { AuthService, FormService, FieldService, SubmissionService } from "../services";
 
 export function useServices() {
   const authStore = useAuthStore();
@@ -10,5 +10,8 @@ export function useServices() {
 
   return {
     authService: new AuthService(ctx),
+    formService: new FormService(ctx),
+    fieldService: new FieldService(ctx),
+    submissionService: new SubmissionService(ctx),
   };
 }

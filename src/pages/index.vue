@@ -48,16 +48,16 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { use_api } from "../composables/api";
+import { useServices } from "../composables/use-services";
 
-const api = use_api();
+const { formService } = useServices();
 const forms = ref([]);
 const error = ref("");
 const loading = ref(true);
 
 async function loadForms() {
   loading.value = true;
-  const resp = await api.list_active_forms();
+  const resp = await formService.list_active_forms();
   loading.value = false;
 
   if (resp.status !== 200) {

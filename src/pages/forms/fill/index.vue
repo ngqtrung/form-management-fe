@@ -99,10 +99,10 @@
 import { onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useQuasar } from "quasar";
-import { use_api } from "../../../composables/api";
+import { useServices } from "../../../composables/use-services";
 
 const props = defineProps({ formId: { type: String, required: true } });
-const api = use_api();
+const { formService, submissionService } = useServices();
 const router = useRouter();
 const $q = useQuasar();
 
@@ -120,7 +120,7 @@ async function loadForm() {
   error.value = "";
   // Employee chỉ có quyền forms:view_active, nên lấy form qua /api/forms/active
   // thay vì GET /api/forms/:id (yêu cầu forms:view_all).
-  const resp = await api.list_active_forms();
+  const resp = await formService.list_active_forms();
   if (resp.status !== 200) {
     error.value = resp.message || "Không tải được form.";
     return;
@@ -141,7 +141,7 @@ async function submit() {
   error.value = "";
   Object.keys(fieldErrors).forEach((key) => delete fieldErrors[key]);
   submitting.value = true;
-  const resp = await api.submit_form(props.formId, { ...answers });
+  const resp = await submissionService.submit_form(props.formId, { ...answers });
   submitting.value = false;
 
   if (resp.status !== 201) {

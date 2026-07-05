@@ -67,9 +67,9 @@
 <script setup>
 import { onMounted, reactive, ref } from "vue";
 import { useQuasar } from "quasar";
-import { use_api } from "../../../composables/api";
+import { useServices } from "../../../composables/use-services";
 
-const api = use_api();
+const { formService } = useServices();
 const $q = useQuasar();
 const forms = ref([]);
 const error = ref("");
@@ -87,7 +87,7 @@ const draft = reactive(blankForm());
 
 async function loadForms() {
   error.value = "";
-  const resp = await api.list_forms({ per_page: 100 });
+  const resp = await formService.list_forms({ per_page: 100 });
   if (resp.status !== 200) {
     error.value = resp.message || "Không tải được danh sách form.";
     return;
@@ -108,8 +108,8 @@ function startEdit(form) {
 async function save() {
   error.value = "";
   const resp = editingId.value
-    ? await api.update_form(editingId.value, draft)
-    : await api.create_form(draft);
+    ? await formService.update_form(editingId.value, draft)
+    : await formService.create_form(draft);
 
   if (resp.status !== 200 && resp.status !== 201) {
     error.value = resp.message + (resp.details ? ": " + resp.details.map((d) => d.message).join(", ") : "");
@@ -129,7 +129,7 @@ function remove(form) {
     ok: { label: "Xóa", color: "negative", unelevated: true },
     cancel: { label: "Hủy", flat: true },
   }).onOk(async () => {
-    const resp = await api.delete_form(form.id);
+    const resp = await formService.delete_form(form.id);
     if (resp.status !== 204) {
       error.value = resp.message || "Xóa form thất bại.";
       return;

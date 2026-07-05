@@ -66,10 +66,10 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { useAuthStore } from "../../stores/auth";
-import { use_api } from "../../composables/api";
+import { useServices } from "../../composables/use-services";
 
 const authStore = useAuthStore();
-const api = use_api();
+const { submissionService } = useServices();
 
 const submissions = ref([]);
 const error = ref("");
@@ -97,7 +97,7 @@ function toggle(row) {
 async function load(page = 1) {
   error.value = "";
   loading.value = true;
-  const resp = await api.list_submissions({ page, per_page: pagination.value.rowsPerPage });
+  const resp = await submissionService.list_submissions({ page, per_page: pagination.value.rowsPerPage });
   loading.value = false;
 
   if (resp.status !== 200) {

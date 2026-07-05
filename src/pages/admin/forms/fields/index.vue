@@ -76,10 +76,10 @@
 <script setup>
 import { onMounted, reactive, ref } from "vue";
 import { useQuasar } from "quasar";
-import { use_api } from "../../../../composables/api";
+import { useServices } from "../../../../composables/use-services";
 
 const props = defineProps({ formId: { type: String, required: true } });
-const api = use_api();
+const { formService, fieldService } = useServices();
 const $q = useQuasar();
 
 const form = ref(null);
@@ -105,7 +105,7 @@ const draft = reactive(blankField());
 
 async function loadForm() {
   error.value = "";
-  const resp = await api.get_form(props.formId);
+  const resp = await formService.get_form(props.formId);
   if (resp.status !== 200) {
     error.value = resp.message || "Không tải được form.";
     return;
@@ -141,8 +141,8 @@ async function save() {
   error.value = "";
   const payload = buildPayload();
   const resp = editingId.value
-    ? await api.update_field(props.formId, editingId.value, payload)
-    : await api.create_field(props.formId, payload);
+    ? await fieldService.update_field(props.formId, editingId.value, payload)
+    : await fieldService.create_field(props.formId, payload);
 
   if (resp.status !== 200 && resp.status !== 201) {
     error.value = resp.message + (resp.details ? ": " + resp.details.map((d) => d.message).join(", ") : "");
@@ -162,7 +162,7 @@ function remove(field) {
     ok: { label: "Xóa", color: "negative", unelevated: true },
     cancel: { label: "Hủy", flat: true },
   }).onOk(async () => {
-    const resp = await api.delete_field(props.formId, field.id);
+    const resp = await fieldService.delete_field(props.formId, field.id);
     if (resp.status !== 204) {
       error.value = resp.message || "Xóa field thất bại.";
       return;
