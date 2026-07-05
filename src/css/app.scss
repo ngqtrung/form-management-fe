@@ -1,0 +1,40 @@
+// app global css
+
+body {
+  background: #f4f6fb;
+}
+
+.q-card {
+  border-radius: 10px;
+}
+
+.q-card--bordered {
+  border: 1px solid #e5e7eb;
+}
+
+.q-card__section--vert {
+  padding: 20px 24px;
+}
+
+.page-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #1f2430;
+}
+
+.page-subtitle {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.page-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.form-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
